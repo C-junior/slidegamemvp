@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khaos Art Puzzle</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #242222;
+    }
+    .container {
+      text-align: center;
+    }
+    .page {
+      display: none;
+    }
+    #home {
+      display: block;
+    }
+    .button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #be0a0a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    .button:hover {
+      background-color: #bd0c0c;
+    }
+    #gallery,
+    #level1,
+    #level2 /* Add more levels as needed */ {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div id="home" class="page">
+    <h1>Welcome to Khaos Art Puzzle</h1>
+    <button class="button" onclick="showGallery()">Gallery</button>
+    <button class="button" onclick="showLevel(1)">Level 1</button>
+    <!-- Add more level buttons as needed -->
+  </div>
+
+  <div id="gallery" class="page">
+    <h1>Gallery</h1>
+    <img src="assets/nijinrework.png" alt="" width="250">
+    <!-- Include gallery content or images here -->
+    <button class="button" onclick="showHome()">Back to Home</button>
+  </div>
+
+  <div id="level1" class="page">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Khaos Art Sliding Puzzle</title>
+        <style>
+          body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #666666;
+          }
+          #puzzle-container {
+            text-align: center;
+          }
+          .puzzle {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            gap: 5px;
+            border: 5px solid #333;
+            border-radius: 10px;
+            overflow: hidden;
+          }
+          .piece {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            transition: background-color 0.3s;
+          }
+          .piece img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 5px;
+          }
+          .info {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+          }
+          h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+          }
+          #reset-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #be0a0a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+          }
+          #reset-button:hover {
+            background-color: #b11515;
+          }
+        </style>
+      </head>
+      <body>
+      
+      <div id="puzzle-container">
+        <h1>Khaos Art Puzzle</h1>
+        <div id="puzzle" class="puzzle"></div>
+        <div id="info" class="info"></div>
+        <button id="reset-button" onclick="resetPuzzle()">Reset Puzzle</button>
+      </div>
+      
+      <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            const puzzleContainer = document.getElementById('puzzle');
+            const infoContainer = document.getElementById('info');
+            let puzzle = [];
+            let turns = 0;
+          
+            function initializePuzzle() {
+              puzzle = [...Array(9).keys()].sort(() => Math.random() - 0.5);
+              turns = 0;
+              renderPuzzle();
+              renderInfo();
+            }
+          
+            function renderPuzzle() {
+              puzzleContainer.innerHTML = '';
+              puzzle.forEach((number) => {
+                const piece = document.createElement('div');
+                piece.classList.add('piece');
+                piece.addEventListener('click', () => movePiece(number));
+          
+                const image = document.createElement('img');
+                image.src = `assets/image_part_00${number}.png`;
+                piece.appendChild(image);
+          
+                puzzleContainer.appendChild(piece);
+              });
+            }
+          
+            function renderInfo() {
+              infoContainer.textContent = `Turns: ${turns}`;
+            }
+          
+            function isAdjacent(index1, index2) {
+              const row1 = Math.floor(index1 / 3);
+              const col1 = index1 % 3;
+              const row2 = Math.floor(index2 / 3);
+              const col2 = index2 % 3;
+          
+              return Math.abs(row1 - row2) + Math.abs(col1 - col2) === 1;
+            }
+          
+             function movePiece(number) {
+        const index = puzzle.indexOf(number);
+        const emptyIndex = puzzle.indexOf(8);
+      
+        if (isAdjacent(index, emptyIndex)) {
+          [puzzle[index], puzzle[emptyIndex]] = [puzzle[emptyIndex], puzzle[index]];
+          turns++;
+          renderPuzzle();
+          renderInfo();
+      
+          if (puzzle.every((value, idx) => idx === value)) {
+            setTimeout(() => {
+              alert(`Congratulations! Puzzle solved in ${turns} turns!`);
+              initializePuzzle();
+            }, 300);
+          }
+        }
+      }
+            initializePuzzle();
+          
+            // Added event listener for the reset button
+            const resetButton = document.getElementById('reset-button');
+            resetButton.addEventListener('click', resetPuzzle);
+          
+            // Reset function
+            function resetPuzzle() {
+              initializePuzzle();
+            }
+          });
+          </script>
+          
+      </body>
+    <!-- ... existing level 1 code ... -->
+    <button class="button" onclick="showHome()">Back to Home</button>
+  </div>
+
+  <!-- Add more level pages as needed -->
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Add any initialization code here
+
+  // Example: initializePuzzle(); // Call the function to initialize the first puzzle
+
+});
+
+function showPage(pageId) {
+  const pages = document.querySelectorAll('.page');
+  pages.forEach(page => {
+    page.style.display = 'none';
+  });
+  document.getElementById(pageId).style.display = 'block';
+}
+
+function showHome() {
+  showPage('home');
+}
+
+function showGallery() {
+  showPage('gallery');
+}
+
+function showLevel(level) {
+  // You can customize this function to load the specific level content
+  // Example: loadLevelContent(level);
+  showPage(`level${level}`);
+}
+</script>
+
+</body>
+</html>
